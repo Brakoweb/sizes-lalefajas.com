@@ -1,5 +1,7 @@
 import propTypes from 'prop-types';
 import { useEffect, useState } from 'react';
+import Swal from 'sweetalert2'
+import withReactContent from 'sweetalert2-react-content'
 
   const calcHeight = (ft, inch) => {
     ft = parseFloat(ft);
@@ -75,17 +77,39 @@ const App = () => {
     const [ft, setFt] = useState(0);
     const [inch, setInch] = useState(0);
     const [weight, setWeight] = useState(0);
+    const [buttonClicked, setButtonClicked] = useState(false);
 
     useEffect(() => {
         const height = calcHeight(ft, inch);
+
+        if (buttonClicked && (height < 5 || height > 6)) {
+          // Mostrar un alert si la altura está fuera del rango deseado
+          const MySwal = withReactContent(Swal);
+      
+          Swal.fire(
+            'Lo sentimos...',
+            'Porfavor contactenos al 000-000-0000',
+            'question'
+          );
+      
+          // Reiniciar los estados a 0 y salir de la función
+          setFt(0);
+          setInch(0);
+          setWeight(0);
+          setSize('N/A')
+          return;
+        }
+
         const calculatedSize = getGirdleSize(height, weight);
         setSize(calculatedSize);
-      }, [ft, inch, weight]);
+      }, [ft, inch, weight, buttonClicked]);
+      
 
     const handleBtn = () =>{
         setFt(document.getElementById('pies').value);
         setInch(document.getElementById('pulgadas').value);
         setWeight(document.getElementById('peso').value);
+        setButtonClicked(true);
     }
 
     return (
