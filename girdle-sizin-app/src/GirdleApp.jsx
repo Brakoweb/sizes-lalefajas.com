@@ -1,3 +1,18 @@
+import propTypes from 'prop-types';
+import { useState } from 'react';
+
+  const calcHeight = (ft, inch) => {
+    ft = parseFloat(ft);
+    inch = parseFloat(inch);
+    if (inch == 10 || inch == 11) {
+        return ft + (inch * 0.01)
+    } else {
+        return ft + (inch * 0.1)
+    }
+  }
+
+
+ 
 const getGirdleSize = (height, weight) => {
     let size = '';
     if (height >= 5 && height <= 5.6) {
@@ -52,12 +67,75 @@ const getGirdleSize = (height, weight) => {
         }
 }
 
-export function App(){
+
+
+const App = () => {
+
+    const [size, setSize] = useState('n/a');
+    const [ft, setFt] = useState(0);
+    const [inch, setInch] = useState(0);
+    const [weight, setWeight] = useState(0);
+
+    const handleBtn = () =>{
+        setFt(document.getElementById('pies').value);
+        setInch(document.getElementById('pulgadas').value);
+        setWeight(document.getElementById('peso').value);
+        const height = calcHeight(ft,inch);
+        console.log(height);
+        console.log(weight);
+        setSize(getGirdleSize(height,weight));
+        
+    }
+
     return (
     <>
-        <input type="text" placeholder="Altura" />
-        <input type="text" placeholder="Peso" />
-        <h1>{getGirdleSize(6,220)}</h1>
+        <label htmlFor="altura">Altura (pies y pulgadas):</label>
+        <select id="pies" name="pies" required>
+            <option value="" disabled defaultValue="">Pies</option>
+            <option value="4">4 ft</option>
+            <option value="5">5 ft</option>
+            <option value="6">6 ft</option>
+        
+        </select>
+        <select id="pulgadas" name="pulgadas" required>
+            <option value="" disabled defaultValue="">Pulgadas</option>
+            <option value="0">0 in</option>
+            <option value="1">1 in</option>
+            <option value="2">2 in</option>
+            <option value="3">3 in</option>
+            <option value="4">4 in</option>
+            <option value="5">5 in</option>
+            <option value="6">6 in</option>
+            <option value="7">7 in</option>
+            <option value="8">8 in</option>
+            <option value="9">9 in</option>
+            <option value="10">10 in</option>
+            <option value="11">11 in</option>
+        
+        </select>
+
+        <label htmlFor="peso">Peso (libras):</label>
+        <input id="peso" name="peso" type="number" placeholder="000" />
+        <button className="calcBtn" onClick={handleBtn}>Calcular</button>
+
+
+        <h1>{size}</h1>
     </>
     );
 }
+
+App.propTypes = {
+    height: propTypes.number.isRequired,
+    weight: propTypes.number.isRequired,
+    selectPies: propTypes.number.isRequired,
+    selectPulgadas: propTypes.number.isRequired
+}
+
+App.defaultProps = {
+    height: 0,
+    weight: 0,
+    selectPies: 0,
+    selectPulgadas: 0
+}
+
+export default App;
