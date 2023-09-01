@@ -1,5 +1,5 @@
 import propTypes from 'prop-types';
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
 
   const calcHeight = (ft, inch) => {
     ft = parseFloat(ft);
@@ -76,15 +76,16 @@ const App = () => {
     const [inch, setInch] = useState(0);
     const [weight, setWeight] = useState(0);
 
+    useEffect(() => {
+        const height = calcHeight(ft, inch);
+        const calculatedSize = getGirdleSize(height, weight);
+        setSize(calculatedSize);
+      }, [ft, inch, weight]);
+
     const handleBtn = () =>{
         setFt(document.getElementById('pies').value);
         setInch(document.getElementById('pulgadas').value);
         setWeight(document.getElementById('peso').value);
-        const height = calcHeight(ft,inch);
-        console.log(height);
-        console.log(weight);
-        setSize(getGirdleSize(height,weight));
-        
     }
 
     return (
