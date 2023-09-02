@@ -6,18 +6,14 @@ import withReactContent from 'sweetalert2-react-content'
   const calcHeight = (ft, inch) => {
     ft = parseFloat(ft);
     inch = parseFloat(inch);
-    if (inch == 10 || inch == 11) {
-        return ft + (inch * 0.01)
-    } else {
-        return ft + (inch * 0.1)
-    }
+    return ft + (inch * 0.01);
   }
 
 
  
 const getGirdleSize = (height, weight) => {
     let size = '';
-    if (height >= 5 && height <= 5.6) {
+    if (height >= 5 && height <= 5.06) {
         if (weight >= 91 && weight <= 97) {
             return size = '3XS';
         }else if (weight >= 98 && weight <= 106) {
@@ -40,7 +36,7 @@ const getGirdleSize = (height, weight) => {
             return size = 'N/A';
         }
 
-    } else if (height >= 5.7 && height <= 6) {
+    } else if (height >= 5.07 && height <= 6) {
         if (weight >= 98 && weight <= 105) {
             return size = '3XS';
         }else if (weight >= 106 && weight <= 116) {
@@ -115,6 +111,7 @@ const App = () => {
     return (
     <>
         <label htmlFor="altura">Altura (pies y pulgadas):</label>
+        <br />
         <select id="pies" name="pies" required>
             <option value="" disabled defaultValue="">Pies</option>
             <option value="4">4 ft</option>
@@ -138,13 +135,16 @@ const App = () => {
             <option value="11">11 in</option>
         
         </select>
+        <br />
 
         <label htmlFor="peso">Peso (libras):</label>
-        <input id="peso" name="peso" type="number" placeholder="000" />
+        <br />
+        <input id="peso" name="peso" type="number" placeholder="000" required />
+        <br />
         <button className="calcBtn" onClick={handleBtn}>Calcular</button>
 
 
-        <h1>{size}</h1>
+        <h1>Talla: {size}</h1>
     </>
     );
 }
