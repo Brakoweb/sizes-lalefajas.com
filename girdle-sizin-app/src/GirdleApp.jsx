@@ -82,7 +82,7 @@ const App = () => {
     useEffect(() => {
         const height = calcHeight(ft, inch);
 
-        if (buttonClicked && (height < 5 || height > 6)) {
+        if (buttonClicked && (height < 5 || height > 6 || weight < 91 || weight > 228)) {
           // Mostrar un alert si la altura está fuera del rango deseado
           const MySwal = withReactContent(Swal);
       
