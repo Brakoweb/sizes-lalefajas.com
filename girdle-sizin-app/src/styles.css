@@ -20,9 +20,13 @@ body {
 }
 
 h1 {
+  border-radius: 5px;
+  color: #f5f5f5;
   font-size: 24px;
+  padding: 10px;
   margin-top: 20px;
   text-align: center;
+  background-color: #0056b3;
 }
 
 label {
@@ -59,6 +63,36 @@ button.calcBtn {
 
 button.calcBtn:hover {
   background-color: #0056b3;
+}
+
+#btnInfo {
+  background-color: #007bff;
+  color: #fff;
+  font-size: 8px;
+  padding: 5px;
+  margin-left: 5px;
+  border: none;
+  border-radius: 100px;
+  cursor: pointer;
+  transition: background-color 0.3s ease-in-out;
+}
+
+.input-container {
+  position: relative;
+}
+
+.tooltip {
+  position: relative;
+  background-color: rgba(0, 110, 255, 0.7);
+  color: #fff;
+  border: 1px solid #ccc;
+  padding: 5px;
+  border-radius: 4px;
+  z-index: 1;
+}
+
+.tooltip.show {
+  display: block;
 }
 
 /* animation */

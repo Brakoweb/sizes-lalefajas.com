@@ -1,13 +1,20 @@
+import { useState } from "react";
+
 export const MetricSystem = ({ metricSystem, setMetricSystem }) => {
+  const [showInfo, setShowInfo] = useState(false);
   const handleSelectChange = (event) => {
     event.target.value == "true"
       ? setMetricSystem(true)
       : setMetricSystem(false);
   };
 
+  const handleInfoClick = () => {
+    setShowInfo(!showInfo);
+  };
+
   return (
-    <>
-      <label htmlFor="metricSystem">Sistema m&eacute;trico:</label>
+    <div className="input-container">
+      <label htmlFor="metricSystem">Metric System:</label>
       <br />
       <select
         id="metricSystem"
@@ -21,7 +28,16 @@ export const MetricSystem = ({ metricSystem, setMetricSystem }) => {
         </option>
         <option value="true">M/Kg</option>
       </select>
+      <button id="btnInfo" onClick={handleInfoClick}>
+        i
+      </button>
+      {showInfo && (
+        <div className="tooltip">
+          Select here the metric system you prefer, feet with inches / pounds or
+          meters with centimeters / kilograms.
+        </div>
+      )}
       <br />
-    </>
+    </div>
   );
 };

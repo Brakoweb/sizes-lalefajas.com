@@ -82,7 +82,6 @@ const App = () => {
     ) {
       // Mostrar un alert si la altura está fuera del rango deseado
       const MySwal = withReactContent(Swal);
-
       Swal.fire(
         "Lo sentimos...",
         "Porfavor contactenos al 000-000-0000",
@@ -142,10 +141,10 @@ const App = () => {
       />
       {metricSystem ? <MtKg /> : <FtLb />}
       <button className="calcBtn" onClick={handleBtn}>
-        Calcular
+        Calculate
       </button>
 
-      <h1>Talla: {size}</h1>
+      <h1>Size: {size}</h1>
     </>
   );
 };

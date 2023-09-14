@@ -1,11 +1,11 @@
 export const FtLb = () => {
   return (
     <>
-      <label htmlFor="altura">Altura (pies y pulgadas):</label>
+      <label htmlFor="altura">Height (feet and inches):</label>
       <br />
       <select id="pies" name="pies" required>
         <option value="" disabled defaultValue="">
-          Pies
+          Ft
         </option>
         <option value="4">4 ft</option>
         <option value="5">5 ft</option>
@@ -13,7 +13,7 @@ export const FtLb = () => {
       </select>
       <select id="pulgadas" name="pulgadas" required>
         <option value="" disabled defaultValue="">
-          Pulgadas
+          Inch
         </option>
         <option value="0">0 in</option>
         <option value="1">1 in</option>
@@ -30,7 +30,7 @@ export const FtLb = () => {
       </select>
       <br />
 
-      <label htmlFor="peso">Peso (libras):</label>
+      <label htmlFor="peso">Weight (pounds):</label>
       <br />
       <input
         id="peso"
