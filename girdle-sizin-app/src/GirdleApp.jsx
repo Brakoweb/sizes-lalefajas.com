@@ -65,7 +65,7 @@ const getGirdleSize = (height, weight) => {
   }
 };
 
-const App = () => {
+const GirdleApp = ({ setSelectedApp }) => {
   const [size, setSize] = useState("N/A");
   const [ft, setFt] = useState(0);
   const [inch, setInch] = useState(0);
@@ -84,7 +84,7 @@ const App = () => {
       const MySwal = withReactContent(Swal);
       Swal.fire(
         "Lo sentimos...",
-        "Porfavor contactenos al 000-000-0000",
+        "Por favor contactenos al 000-000-0000",
         "question"
       );
 
@@ -143,24 +143,28 @@ const App = () => {
       <button className="calcBtn" onClick={handleBtn}>
         Calculate
       </button>
+      <button className="backBtn" onClick={() => setSelectedApp(null)}>
+        Back to Menu
+      </button>
 
       <h1>Size: {size}</h1>
     </>
   );
 };
 
-App.propTypes = {
+GirdleApp.propTypes = {
   height: propTypes.number.isRequired,
   weight: propTypes.number.isRequired,
   selectPies: propTypes.number.isRequired,
   selectPulgadas: propTypes.number.isRequired,
+  setSelectedApp: propTypes.func.isRequired,
 };
 
-App.defaultProps = {
+GirdleApp.defaultProps = {
   height: 0,
   weight: 0,
   selectPies: 0,
   selectPulgadas: 0,
 };
 
-export default App;
+export default GirdleApp;
