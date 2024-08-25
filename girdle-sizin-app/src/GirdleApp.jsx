@@ -1,67 +1,58 @@
-import propTypes from "prop-types";
-import { useEffect, useState } from "react";
+import React, { useState, useEffect } from "react";
 import Swal from "sweetalert2";
 import withReactContent from "sweetalert2-react-content";
 import { FtLb } from "./components/FtLb";
 import { MtKg } from "./components/MtKg";
 import { MetricSystem } from "./components/MetricSystem";
 
-const calcHeight = (ft, inch) => {
-  ft = parseFloat(ft);
-  inch = parseFloat(inch);
-  return ft + inch * 0.01;
-};
-
 const getGirdleSize = (height, weight) => {
   let size = "";
   if (height >= 5 && height <= 5.06) {
     if (weight >= 91 && weight <= 97) {
-      return (size = "3XS");
+      return "3XS";
     } else if (weight >= 98 && weight <= 106) {
-      return (size = "2XS");
+      return "2XS";
     } else if (weight >= 107 && weight <= 116) {
-      return (size = "XS");
+      return "XS";
     } else if (weight >= 117 && weight <= 131) {
-      return (size = "S");
+      return "S";
     } else if (weight >= 132 && weight <= 151) {
-      return (size = "M");
+      return "M";
     } else if (weight >= 152 && weight <= 171) {
-      return (size = "L");
+      return "L";
     } else if (weight >= 172 && weight <= 191) {
-      return (size = "XL");
+      return "XL";
     } else if (weight >= 192 && weight <= 211) {
-      return (size = "2XL");
+      return "2XL";
     } else if (weight >= 212 && weight <= 220) {
-      return (size = "3XL");
+      return "3XL";
     } else if (weight < 91 || weight > 220) {
-      return (size = "N/A");
+      return "N/A";
     }
   } else if (height >= 5.07 && height <= 6) {
     if (weight >= 98 && weight <= 105) {
-      return (size = "3XS");
+      return "3XS";
     } else if (weight >= 106 && weight <= 116) {
-      return (size = "2XS");
+      return "2XS";
     } else if (weight >= 117 && weight <= 131) {
-      return (size = "XS");
+      return "XS";
     } else if (weight >= 132 && weight <= 151) {
-      return (size = "S");
+      return "S";
     } else if (weight >= 152 && weight <= 171) {
-      return (size = "M");
+      return "M";
     } else if (weight >= 172 && weight <= 191) {
-      return (size = "L");
+      return "L";
     } else if (weight >= 192 && weight <= 211) {
-      return (size = "XL");
+      return "XL";
     } else if (weight >= 212 && weight <= 220) {
-      return (size = "2XL");
+      return "2XL";
     } else if (weight >= 221 && weight <= 228) {
-      return (size = "3XL");
+      return "3XL";
     } else if (weight < 98 || weight > 228) {
-      return (size = "N/A");
-    } else {
-      return (size = "N/A");
+      return "N/A";
     }
   } else {
-    return (size = "N/A");
+    return "N/A";
   }
 };
 
@@ -73,48 +64,39 @@ const GirdleApp = ({ setSelectedApp }) => {
   const [buttonClicked, setButtonClicked] = useState(false);
   const [metricSystem, setMetricSystem] = useState(false);
 
+  const MySwal = withReactContent(Swal);
+
   useEffect(() => {
-    const height = calcHeight(ft, inch);
+    if (buttonClicked) {
+      const height = parseFloat(ft) + parseFloat(inch) * 0.01;
 
-    if (
-      buttonClicked &&
-      (height < 5 || height > 6 || weight < 91 || weight > 228)
-    ) {
-      // Mostrar un alert si la altura está fuera del rango deseado
-      const MySwal = withReactContent(Swal);
-      Swal.fire(
-        "Lo sentimos...",
-        "Por favor contactenos al 000-000-0000",
-        "question"
-      );
+      if (height < 5 || height > 6 || weight < 91 || weight > 228) {
+        MySwal.fire(
+          "Lo sentimos...",
+          `Necesitamos información extra nos puedes contactar dándole <a href="https://wa.me/14079062024" target="_blank" style="color: #007bff; text-decoration: none;">clic aquí</a> y nosotros te ayudamos de manera más fácil y efectiva`,
+          "question"
+        );
 
-      // Reiniciar los estados a 0 y salir de la función
-      setFt(0);
-      setInch(0);
-      setWeight(0);
-      setSize("N/A");
-      return;
+        setFt(0);
+        setInch(0);
+        setWeight(0);
+        setSize("N/A");
+        return;
+      }
+
+      const calculatedSize = getGirdleSize(height, weight);
+      setSize(calculatedSize);
+
+      MySwal.fire({
+        title: `Size: ${calculatedSize}`,
+        text: "Here is your girdle size",
+        imageUrl: "/images/size.png",
+        imageWidth: 400,
+        imageHeight: 200,
+        imageAlt: "Size image",
+      });
     }
-
-    const calculatedSize = getGirdleSize(height, weight);
-    setSize(calculatedSize);
-  }, [ft, inch, weight, buttonClicked]);
-
-  const parseFt = (metro, cm) => {
-    let height = parseFloat(metro) + parseFloat(cm) * 0.01;
-    height = height * 3.28084; // become Ft
-    let decimalPart = height % 1;
-    decimalPart = Math.round(decimalPart * 12); // become inch and round it
-    height = Math.trunc(height); // number without decimal
-    decimalPart = decimalPart * 0.01;
-    height = height + decimalPart; // result in ft with inch
-
-    return height;
-  };
-
-  const parseWeight = (kg) => {
-    return kg * 2.20462; // kg to lb
-  };
+  }, [buttonClicked, ft, inch, weight]);
 
   const handleBtn = () => {
     if (metricSystem) {
@@ -133,6 +115,22 @@ const GirdleApp = ({ setSelectedApp }) => {
     setButtonClicked(true);
   };
 
+  const parseFt = (metro, cm) => {
+    let height = parseFloat(metro) + parseFloat(cm) * 0.01;
+    height = height * 3.28084; // Convert to feet
+    let decimalPart = height % 1;
+    decimalPart = Math.round(decimalPart * 12); // Convert to inches and round
+    height = Math.trunc(height); // Remove decimal part
+    decimalPart = decimalPart * 0.01;
+    height = height + decimalPart; // Result in feet with inches
+
+    return height;
+  };
+
+  const parseWeight = (kg) => {
+    return kg * 2.20462; // kg to lb
+  };
+
   return (
     <>
       <MetricSystem
@@ -141,30 +139,13 @@ const GirdleApp = ({ setSelectedApp }) => {
       />
       {metricSystem ? <MtKg /> : <FtLb />}
       <button className="calcBtn" onClick={handleBtn}>
-        Calculate
+        Calcular
       </button>
       <button className="backBtn" onClick={() => setSelectedApp(null)}>
-        Back to Menu
+        Volver al Menu
       </button>
-
-      <h1>Size: {size}</h1>
     </>
   );
-};
-
-GirdleApp.propTypes = {
-  height: propTypes.number.isRequired,
-  weight: propTypes.number.isRequired,
-  selectPies: propTypes.number.isRequired,
-  selectPulgadas: propTypes.number.isRequired,
-  setSelectedApp: propTypes.func.isRequired,
-};
-
-GirdleApp.defaultProps = {
-  height: 0,
-  weight: 0,
-  selectPies: 0,
-  selectPulgadas: 0,
 };
 
 export default GirdleApp;

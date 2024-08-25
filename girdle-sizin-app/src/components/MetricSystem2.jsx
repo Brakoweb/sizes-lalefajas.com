@@ -1,16 +1,16 @@
 import React, { useState } from "react";
 
-export const MetricSystem = ({ metricSystem, setMetricSystem }) => {
+export const MetricSystem2 = ({ metricSystem2, setMetricSystem2 }) => {
   const handleRadioChange = (event) => {
-    setMetricSystem(event.target.value === "true");
+    setMetricSystem2(event.target.value === "true");
   };
 
   return (
     <div className="input-container">
-      <label htmlFor="metricSystem">Medir Altura y Peso:</label>
+      <label htmlFor="metricSystem">Medir Diametro de la cabeza:</label>
       <br />
       <img
-        src="./public/images/alturas.jpg"
+        src="./public/images/chin-head.jpg"
         alt="measure"
         className="imgMetricSystem"
       />
@@ -22,10 +22,10 @@ export const MetricSystem = ({ metricSystem, setMetricSystem }) => {
             id="ftlb"
             name="metricSystem"
             value="false"
-            checked={!metricSystem}
+            checked={!metricSystem2}
             onChange={handleRadioChange}
           />
-          <label htmlFor="ftlb">Pies y Libras</label>
+          <label htmlFor="ftlb">Pulgadas</label>
         </div>
 
         <div className="mtkg">
@@ -34,10 +34,10 @@ export const MetricSystem = ({ metricSystem, setMetricSystem }) => {
             id="mtkg"
             name="metricSystem"
             value="true"
-            checked={metricSystem}
+            checked={metricSystem2}
             onChange={handleRadioChange}
           />
-          <label htmlFor="mtkg">Metros y Kilogramos</label>
+          <label htmlFor="mtkg">Centimetros</label>
         </div>
       </div>
 

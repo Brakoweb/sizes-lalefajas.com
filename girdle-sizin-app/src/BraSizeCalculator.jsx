@@ -4,16 +4,16 @@ import withReactContent from "sweetalert2-react-content";
 
 const getBraSize = (bustMeasurement) => {
   let size = "";
-  if (bustMeasurement >= 30 && bustMeasurement <= 32) {
-    return (size = "S");
-  } else if (bustMeasurement >= 33 && bustMeasurement <= 34) {
-    return (size = "M");
-  } else if (bustMeasurement >= 35 && bustMeasurement <= 36) {
-    return (size = "L");
-  } else if (bustMeasurement >= 37 && bustMeasurement <= 38) {
-    return (size = "XL");
+  if (bustMeasurement >= 30 && bustMeasurement <= 31) {
+    return "S";
+  } else if (bustMeasurement >= 32 && bustMeasurement <= 33) {
+    return "M";
+  } else if (bustMeasurement >= 34 && bustMeasurement <= 35) {
+    return "L";
+  } else if (bustMeasurement >= 36 && bustMeasurement <= 37) {
+    return "XL";
   } else {
-    return (size = "N/A");
+    return "N/A";
   }
 };
 
@@ -22,22 +22,36 @@ const BraSizeCalculator = ({ setSelectedApp }) => {
   const [bustMeasurement, setBustMeasurement] = useState(0);
   const [buttonClicked, setButtonClicked] = useState(false);
 
+  const MySwal = withReactContent(Swal);
+
   useEffect(() => {
-    if (buttonClicked && (bustMeasurement < 30 || bustMeasurement > 38)) {
-      const MySwal = withReactContent(Swal);
-      Swal.fire(
-        "Lo sentimos...",
-        "Por favor contactenos al 000-000-0000",
-        "question"
-      );
+    if (buttonClicked) {
+      const calculatedSize = getBraSize(bustMeasurement);
+      setSize(calculatedSize);
 
-      setBustMeasurement(0);
-      setSize("N/A");
-      return;
+      MySwal.fire({
+        title: `Size: ${calculatedSize}`,
+        text: "Here is your bra size",
+        imageUrl: "/images/size.png",
+        imageWidth: 400,
+        imageHeight: 200,
+        imageAlt: "Size image",
+      });
+
+      if (bustMeasurement < 30 || bustMeasurement > 37) {
+        MySwal.fire(
+          "Lo sentimos...",
+          `Necesitamos información extra nos puedes contactar dándole <a href="https://wa.me/14079062024" target="_blank" style="color: #007bff; text-decoration: none;">clic aquí</a> y nosotros te ayudamos de manera más fácil y efectiva`,
+          "question"
+        );
+
+        setBustMeasurement(0);
+        setSize("N/A");
+        return;
+      }
+
+      setButtonClicked(false); // Reset buttonClicked to prevent re-triggering
     }
-
-    const calculatedSize = getBraSize(bustMeasurement);
-    setSize(calculatedSize);
   }, [bustMeasurement, buttonClicked]);
 
   const handleBtn = () => {
@@ -48,7 +62,10 @@ const BraSizeCalculator = ({ setSelectedApp }) => {
 
   return (
     <>
-      <label htmlFor="bust">Bust Measurement (inches):</label>
+      <br />
+      <img src="./public/images/bra.jpg" alt="measure" className="imgBra" />
+      <br />
+      <label htmlFor="bust">Medida del busto (inches):</label>
       <input
         id="bust"
         name="bust"
@@ -65,8 +82,6 @@ const BraSizeCalculator = ({ setSelectedApp }) => {
       <button className="backBtn" onClick={() => setSelectedApp(null)}>
         Back to Menu
       </button>
-
-      <h1>Size: {size}</h1>
     </>
   );
 };

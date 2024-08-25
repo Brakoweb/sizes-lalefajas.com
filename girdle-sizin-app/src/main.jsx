@@ -5,6 +5,7 @@ import GirdleApp from "./GirdleApp";
 import ChinGirdleApp from "./ChinGirdleApp";
 import BraSizeCalculator from "./BraSizeCalculator";
 import Menu from "./Menu";
+import { Header } from "./components/Header";
 
 import "./styles.css";
 
@@ -13,6 +14,7 @@ const AppSelector = () => {
 
   return (
     <React.StrictMode>
+      <Header />
       {selectedApp === null ? (
         <Menu setSelectedApp={setSelectedApp} />
       ) : selectedApp === "girdle" ? (

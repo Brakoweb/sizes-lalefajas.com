@@ -1,14 +1,9 @@
-import propTypes from "prop-types";
-import { useEffect, useState } from "react";
+import React, { useState, useEffect } from "react";
 import Swal from "sweetalert2";
 import withReactContent from "sweetalert2-react-content";
 import { FtLb } from "./components/FtLb";
 import { MtKg } from "./components/MtKg";
-import { MetricSystem } from "./components/MetricSystem";
-
-const calcNeckCircumference = (inch, cm) => {
-  return inch ? parseFloat(inch) : parseFloat(cm) * 0.393701; // Convert cm to inches
-};
+import { MetricSystem2 } from "./components/MetricSystem2";
 
 const getChinGirdleSize = (neckCircumference) => {
   let size = "";
@@ -29,20 +24,24 @@ const ChinGirdleApp = ({ setSelectedApp }) => {
   const [size, setSize] = useState("N/A");
   const [inch, setInch] = useState(0);
   const [cm, setCm] = useState(0);
-  const [buttonClicked, setButtonClicked] = useState(false);
-  const [metricSystem, setMetricSystem] = useState(false);
+  const [metricSystem2, setMetricSystem2] = useState(false);
 
-  useEffect(() => {
-    const neckCircumference = calcNeckCircumference(inch, cm);
+  const MySwal = withReactContent(Swal);
 
-    if (
-      buttonClicked &&
-      (neckCircumference < 20.4 || neckCircumference > 26.1)
-    ) {
-      const MySwal = withReactContent(Swal);
-      Swal.fire(
+  const handleBtn = () => {
+    let neckCircumference;
+    if (metricSystem2) {
+      const cmValue = document.getElementById("cm").value;
+      neckCircumference = parseFloat(cmValue) * 0.393701; // Convert cm to inches
+    } else {
+      const inchValue = document.getElementById("inch").value;
+      neckCircumference = parseFloat(inchValue);
+    }
+
+    if (neckCircumference < 20.4 || neckCircumference > 26.1) {
+      MySwal.fire(
         "Lo sentimos...",
-        "Por favor contactenos al 000-000-0000",
+        `Necesitamos información extra nos puedes contactar dándole <a href="https://wa.me/14079062024" target="_blank" style="color: #007bff; text-decoration: none;">clic aquí</a> y nosotros te ayudamos de manera más fácil y efectiva`,
         "question"
       );
 
@@ -54,53 +53,52 @@ const ChinGirdleApp = ({ setSelectedApp }) => {
 
     const calculatedSize = getChinGirdleSize(neckCircumference);
     setSize(calculatedSize);
-  }, [inch, cm, buttonClicked]);
 
-  const handleBtn = () => {
-    if (metricSystem) {
-      const cmValue = document.getElementById("cm").value;
-      setCm(parseFloat(cmValue));
-      setInch(0);
-    } else {
-      const inchValue = document.getElementById("inch").value;
-      setInch(parseFloat(inchValue));
-      setCm(0);
-    }
-
-    setButtonClicked(true);
+    MySwal.fire({
+      title: `Size: ${calculatedSize}`,
+      text: "Here is your chin girdle size",
+      imageUrl: "/images/size.png",
+      imageWidth: 400,
+      imageHeight: 200,
+      imageAlt: "Size image",
+    });
   };
 
   return (
     <>
-      <MetricSystem
-        metricSystem={metricSystem}
-        setMetricSystem={setMetricSystem}
+      <MetricSystem2
+        metricSystem2={metricSystem2}
+        setMetricSystem2={setMetricSystem2}
       />
-      {metricSystem ? (
+      {metricSystem2 ? (
         <>
-          <label htmlFor="cm">Neck Circumference (cm):</label>
+          <label htmlFor="cm">Circunferencia de la cara (cm):</label>
           <input
             id="cm"
             name="cm"
-            type="number"
-            placeholder="00"
+            type="text"
+            placeholder="0.0"
             required
             onInput={(e) => {
-              e.target.value = e.target.value.replace(/[^\d]/, "").slice(0, 2);
+              e.target.value = e.target.value
+                .replace(/^\d{0,2}(\.\d{0,1})?$/, "")
+                .slice(0, 4);
             }}
           />
         </>
       ) : (
         <>
-          <label htmlFor="inch">Neck Circumference (inch):</label>
+          <label htmlFor="inch">Circunferencia de la cara (inch):</label>
           <input
             id="inch"
             name="inch"
-            type="number"
-            placeholder="00"
+            type="text"
+            placeholder="0.0"
             required
             onInput={(e) => {
-              e.target.value = e.target.value.replace(/[^\d]/, "").slice(0, 2);
+              e.target.value = e.target.value
+                .replace(/[^\d{0,2}(\.\d{0,1})?$]/, "")
+                .slice(0, 4);
             }}
           />
         </>
@@ -111,19 +109,8 @@ const ChinGirdleApp = ({ setSelectedApp }) => {
       <button className="backBtn" onClick={() => setSelectedApp(null)}>
         Back to Menu
       </button>
-
-      <h1>Size: {size}</h1>
     </>
   );
-};
-
-ChinGirdleApp.propTypes = {
-  neckCircumference: propTypes.number.isRequired,
-  setSelectedApp: propTypes.func.isRequired,
-};
-
-ChinGirdleApp.defaultProps = {
-  neckCircumference: 0,
 };
 
 export default ChinGirdleApp;

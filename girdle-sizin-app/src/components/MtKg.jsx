@@ -1,7 +1,7 @@
 export const MtKg = () => {
   return (
     <>
-      <label htmlFor="altura">Height (Meters and centimeters):</label>
+      <label htmlFor="altura">Altura (Metros y Centimetros):</label>
       <br />
       <select id="metro" name="metro" required>
         <option value="" disabled defaultValue="">
@@ -23,7 +23,7 @@ export const MtKg = () => {
       />
       <br />
 
-      <label htmlFor="peso">Weight (Kg):</label>
+      <label htmlFor="peso">Peso (Kg):</label>
       <br />
       <input
         id="peso"
